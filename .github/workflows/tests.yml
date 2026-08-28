@@ -42,8 +42,12 @@ jobs:
             '  IdentityFile ~/.ssh/id_contracts' \
             '  IdentitiesOnly yes' > ~/.ssh/config
           chmod 600 ~/.ssh/config
-          git config --global url."git@github-admin:YutoSeta/magic-html-laravel-admin.git".insteadOf "git@github.com:YutoSeta/magic-html-laravel-admin.git"
-          git config --global url."git@github-contracts:YutoSeta/magic-html-contracts.git".insteadOf "git@github.com:YutoSeta/magic-html-contracts.git"
+          git config --global --add url."ssh://git@github-admin/YutoSeta/magic-html-laravel-admin".insteadOf "git@github.com:YutoSeta/magic-html-laravel-admin"
+          git config --global --add url."ssh://git@github-admin/YutoSeta/magic-html-laravel-admin".insteadOf "ssh://git@github.com/YutoSeta/magic-html-laravel-admin"
+          git config --global --add url."ssh://git@github-admin/YutoSeta/magic-html-laravel-admin".insteadOf "https://github.com/YutoSeta/magic-html-laravel-admin"
+          git config --global --add url."ssh://git@github-contracts/YutoSeta/magic-html-contracts".insteadOf "git@github.com:YutoSeta/magic-html-contracts"
+          git config --global --add url."ssh://git@github-contracts/YutoSeta/magic-html-contracts".insteadOf "ssh://git@github.com/YutoSeta/magic-html-contracts"
+          git config --global --add url."ssh://git@github-contracts/YutoSeta/magic-html-contracts".insteadOf "https://github.com/YutoSeta/magic-html-contracts"
         env:
           LARAVEL_ADMIN_DEPLOY_KEY_B64: ${{ secrets.LARAVEL_ADMIN_DEPLOY_KEY_B64 }}
           CONTRACTS_DEPLOY_KEY_B64: ${{ secrets.CONTRACTS_DEPLOY_KEY_B64 }}
