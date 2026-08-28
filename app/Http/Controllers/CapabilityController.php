@@ -21,7 +21,7 @@ final class CapabilityController extends Controller
     public function verify(AdapterRegistry $adapters): JsonResponse
     {
         $checks = [
-            'contract_installed' => is_file(base_path('vendor/yutoseta/magic-html-contracts/schemas/v1/presentation/materialize-request.json')),
+            'contract_version_supported' => data_get($adapters->manifest(), 'contract_version') === '1.0',
             'adapter_assets' => $adapters->ready(),
         ];
         $ready = ! in_array(false, $checks, true);

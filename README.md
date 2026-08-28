@@ -25,7 +25,7 @@ The built-in component adapter uses original finite Tailwind CSS compositions. T
 
 - `GET /up` — lightweight liveness
 - `GET /api` — capability and adapter inventory
-- `GET /api/__verify` — contracts and generated-adapter readiness
+- `GET /api/__verify` — supported contract version and generated-adapter readiness
 - `POST /api/v1/presentations/materialize` — synchronous deterministic materialization; Bearer token required
 
 The POST is side-effect free and intentionally does not use an `Idempotency-Key`. Identical canonical input and pinned adapter assets produce the same digest.

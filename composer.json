@@ -9,8 +9,7 @@
         "php": "^8.3",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
-        "yutoseta/laravel-admin": "^0.1.4",
-        "yutoseta/magic-html-contracts": "^1.20"
+        "yutoseta/laravel-admin": "^0.1.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -93,9 +92,5 @@
         "name": "laravel-admin",
         "type": "vcs",
         "url": "https://github.com/YutoSeta/magic-html-laravel-admin.git"
-    },{
-        "name": "magic-html-contracts",
-        "type": "vcs",
-        "url": "git@github.com:YutoSeta/magic-html-contracts.git"
     }]
 }

@@ -26,31 +26,11 @@ jobs:
       - name: Configure repository-scoped Composer deploy keys
         run: |
           install -d -m 700 ~/.ssh
-          printf '%s' "$LARAVEL_ADMIN_DEPLOY_KEY_B64" | base64 --decode > ~/.ssh/id_admin
-          printf '%s' "$CONTRACTS_DEPLOY_KEY_B64" | base64 --decode > ~/.ssh/id_contracts
-          chmod 600 ~/.ssh/id_admin ~/.ssh/id_contracts
+          printf '%s' "$LARAVEL_ADMIN_DEPLOY_KEY_B64" | base64 --decode > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com 2>/dev/null >> ~/.ssh/known_hosts
-          printf '%s\n' \
-            'Host github-admin' \
-            '  HostName github.com' \
-            '  User git' \
-            '  IdentityFile ~/.ssh/id_admin' \
-            '  IdentitiesOnly yes' \
-            'Host github-contracts' \
-            '  HostName github.com' \
-            '  User git' \
-            '  IdentityFile ~/.ssh/id_contracts' \
-            '  IdentitiesOnly yes' > ~/.ssh/config
-          chmod 600 ~/.ssh/config
-          git config --global --add url."ssh://git@github-admin/YutoSeta/magic-html-laravel-admin".insteadOf "git@github.com:YutoSeta/magic-html-laravel-admin"
-          git config --global --add url."ssh://git@github-admin/YutoSeta/magic-html-laravel-admin".insteadOf "ssh://git@github.com/YutoSeta/magic-html-laravel-admin"
-          git config --global --add url."ssh://git@github-admin/YutoSeta/magic-html-laravel-admin".insteadOf "https://github.com/YutoSeta/magic-html-laravel-admin"
-          git config --global --add url."ssh://git@github-contracts/YutoSeta/magic-html-contracts".insteadOf "git@github.com:YutoSeta/magic-html-contracts"
-          git config --global --add url."ssh://git@github-contracts/YutoSeta/magic-html-contracts".insteadOf "ssh://git@github.com/YutoSeta/magic-html-contracts"
-          git config --global --add url."ssh://git@github-contracts/YutoSeta/magic-html-contracts".insteadOf "https://github.com/YutoSeta/magic-html-contracts"
         env:
           LARAVEL_ADMIN_DEPLOY_KEY_B64: ${{ secrets.LARAVEL_ADMIN_DEPLOY_KEY_B64 }}
-          CONTRACTS_DEPLOY_KEY_B64: ${{ secrets.CONTRACTS_DEPLOY_KEY_B64 }}
       - run: composer install --no-interaction --prefer-source --no-progress
       - run: composer validate --strict
       - run: npm ci

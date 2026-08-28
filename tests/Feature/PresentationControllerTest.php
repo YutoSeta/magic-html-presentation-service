@@ -28,7 +28,7 @@ final class PresentationControllerTest extends TestCase
 
         $this->getJson('/api/__verify')
             ->assertOk()
-            ->assertJsonPath('checks.contract_installed', true)
+            ->assertJsonPath('checks.contract_version_supported', true)
             ->assertJsonPath('checks.adapter_assets', true);
     }
 

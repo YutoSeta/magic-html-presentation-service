@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7e4909bee4a2555663242e5b6844674",
+    "content-hash": "2d69186e65131292a66728997cc3a656",
     "packages": [
         {
             "name": "brick/math",
@@ -6200,39 +6200,6 @@
                 "issues": "https://github.com/YutoSeta/magic-html-laravel-admin/issues"
             },
             "time": "2026-08-27T23:57:02+00:00"
-        },
-        {
-            "name": "yutoseta/magic-html-contracts",
-            "version": "v1.20.1",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:YutoSeta/magic-html-contracts.git",
-                "reference": "ac12ea763b16544de8881d68ecef38cc0d93b9ff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/YutoSeta/magic-html-contracts/zipball/ac12ea763b16544de8881d68ecef38cc0d93b9ff",
-                "reference": "ac12ea763b16544de8881d68ecef38cc0d93b9ff",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.3"
-            },
-            "type": "library",
-            "scripts": {
-                "test": [
-                    "php tests/validate.php"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ],
-            "description": "Executable contracts for independently deployed Magic HTML services.",
-            "support": {
-                "source": "https://github.com/YutoSeta/magic-html-contracts/tree/v1.20.1",
-                "issues": "https://github.com/YutoSeta/magic-html-contracts/issues"
-            },
-            "time": "2026-08-28T01:11:50+00:00"
         }
     ],
     "packages-dev": [
