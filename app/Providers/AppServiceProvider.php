@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Presentation\AdapterRegistry;
 use App\Presentation\Adapters\HeroiconsAdapter;
+use App\Presentation\Adapters\LicensedSelfHostedFontAdapter;
 use App\Presentation\Adapters\SelfHostedFontAdapter;
 use App\Presentation\Adapters\SystemFontAdapter;
 use App\Presentation\Adapters\TailwindComponentAdapter;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $app->make(HeroiconsAdapter::class),
             $app->make(SystemFontAdapter::class),
             $app->make(SelfHostedFontAdapter::class),
+            $app->make(LicensedSelfHostedFontAdapter::class),
             (string) config('presentation.compiled_css_path'),
             (string) config('presentation.utility_version'),
         ));

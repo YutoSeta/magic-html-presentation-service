@@ -19,6 +19,8 @@ Site AST + Vocabulary AST + Resource Contract + Design intent
 
 Requests cannot supply CSS classes, executable templates, PHP/JavaScript class names, package URLs, remote catalog URLs, provider credentials, or arbitrary asset URLs. Image and self-hosted font bytes remain owned by Media or another explicit asset service; this service accepts only normalized relative paths and SHA-256 digests and never fetches them.
 
+The `licensed-self-hosted` font adapter adds a closed Google Fonts `FontAssetSet` around those WOFF2 references. It pins the `google/fonts` revision, SPDX license, retained license text and copyright digests, transformation history, Reserved Font Names, and the exact governed assets. The policy check is a technical deployment guard rather than legal advice. Catalog discovery and font-byte import remain separate networked capabilities.
+
 The built-in component adapter uses original finite Tailwind CSS compositions. Tailwind Plus is an optional private bring-your-own catalog extension point and no proprietary component source is redistributed here.
 
 ## API
@@ -27,6 +29,7 @@ The built-in component adapter uses original finite Tailwind CSS compositions. T
 - `GET /api` — capability and adapter inventory
 - `GET /api/__verify` — supported contract version and generated-adapter readiness
 - `POST /api/v1/presentations/materialize` — synchronous deterministic materialization; Bearer token required
+- `POST /api/v1/presentations/font-assets/check` — validate immutable Google Fonts provenance, license evidence, transformation policy, and WOFF2 references; Bearer token required
 
 The POST is side-effect free and intentionally does not use an `Idempotency-Key`. Identical canonical input and pinned adapter assets produce the same digest.
 

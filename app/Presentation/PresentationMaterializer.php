@@ -2,6 +2,7 @@
 
 namespace App\Presentation;
 
+use App\Exceptions\InvalidPresentationException;
 use App\Support\CanonicalJson;
 use DOMDocument;
 
@@ -11,6 +12,7 @@ final class PresentationMaterializer
         private readonly ComponentAstValidator $validator,
         private readonly AdapterRegistry $adapters,
         private readonly AssetResolver $assets,
+        private readonly LicensedFontPolicy $fontPolicy,
     ) {}
 
     /** @param array<string,mixed> $payload @return array<string,mixed> */
@@ -21,6 +23,7 @@ final class PresentationMaterializer
         $profile = $payload['adapter_profile'];
         $ast = $payload['component_ast'];
         $this->adapters->assertSupported($profile);
+        $fontPolicy = $this->fontPolicy($profile, $payload['font_asset_set'] ?? null, $payload['font_assets']);
 
         $resolved = $this->assets->resolve($ast['components'], $payload['assets'], $payload['font_assets']);
         $components = $this->adapters->components($profile['component_adapter']);
@@ -61,6 +64,7 @@ final class PresentationMaterializer
             'surface_id' => $ast['surface_id'],
             'profile_id' => $profile['profile_id'],
             'catalog_locks' => $profile['catalog_locks'],
+            'font_policy' => $fontPolicy,
             'html' => $html,
             'css' => $css,
             'required_assets' => $resolved['required_assets'],
@@ -72,5 +76,32 @@ final class PresentationMaterializer
             ...$digestInput,
             'digest' => hash('sha256', CanonicalJson::encode($digestInput)),
         ];
+    }
+
+    /**
+     * @param  array<string,mixed>  $profile
+     * @param  array<string,mixed>|null  $fontAssetSet
+     * @param  array<int,array<string,mixed>>  $fontAssets
+     * @return array<string,mixed>|null
+     */
+    private function fontPolicy(array $profile, ?array $fontAssetSet, array $fontAssets): ?array
+    {
+        if ($profile['font_adapter'] === 'licensed-self-hosted') {
+            if ($fontAssetSet === null) {
+                throw new InvalidPresentationException([
+                    'font_asset_set' => ['The licensed self-hosted font adapter requires a font asset set.'],
+                ]);
+            }
+
+            return $this->fontPolicy->check($fontAssetSet, $fontAssets);
+        }
+
+        if ($fontAssetSet !== null) {
+            throw new InvalidPresentationException([
+                'font_asset_set' => ['A font asset set is accepted only by the licensed self-hosted font adapter.'],
+            ]);
+        }
+
+        return null;
     }
 }

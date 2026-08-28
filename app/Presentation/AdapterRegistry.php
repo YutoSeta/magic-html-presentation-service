@@ -4,6 +4,7 @@ namespace App\Presentation;
 
 use App\Exceptions\UnsupportedAdapterException;
 use App\Presentation\Adapters\HeroiconsAdapter;
+use App\Presentation\Adapters\LicensedSelfHostedFontAdapter;
 use App\Presentation\Adapters\SelfHostedFontAdapter;
 use App\Presentation\Adapters\SystemFontAdapter;
 use App\Presentation\Adapters\TailwindComponentAdapter;
@@ -20,6 +21,7 @@ final class AdapterRegistry
         private readonly HeroiconsAdapter $icons,
         private readonly SystemFontAdapter $systemFonts,
         private readonly SelfHostedFontAdapter $selfHostedFonts,
+        private readonly LicensedSelfHostedFontAdapter $licensedSelfHostedFonts,
         private readonly string $compiledCssPath,
         private readonly string $utilityVersion,
     ) {}
@@ -51,13 +53,14 @@ final class AdapterRegistry
                 'utility_adapter' => 'tailwindcss-v4',
                 'icon_adapter' => $this->icons->key(),
                 'icon_styles' => ['outline', 'solid'],
-                'font_adapters' => [$this->systemFonts->key(), $this->selfHostedFonts->key()],
+                'font_adapters' => [$this->systemFonts->key(), $this->selfHostedFonts->key(), $this->licensedSelfHostedFonts->key()],
                 'font_families' => ['sans', 'sans-ja', 'serif', 'mono'],
                 'image_adapter' => 'relative-assets',
                 'default_profile' => $this->defaultProfile(),
                 'catalog_locks_by_font_adapter' => [
                     $this->systemFonts->key() => $this->catalogLocks($this->systemFonts),
                     $this->selfHostedFonts->key() => $this->catalogLocks($this->selfHostedFonts),
+                    $this->licensedSelfHostedFonts->key() => $this->catalogLocks($this->licensedSelfHostedFonts),
                 ],
             ]],
             'extension_points' => [[
@@ -116,6 +119,7 @@ final class AdapterRegistry
         return match ($key) {
             'system' => $this->systemFonts,
             'self-hosted' => $this->selfHostedFonts,
+            'licensed-self-hosted' => $this->licensedSelfHostedFonts,
             default => throw new UnsupportedAdapterException("Font adapter {$key} is not registered."),
         };
     }

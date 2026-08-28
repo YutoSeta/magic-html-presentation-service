@@ -246,7 +246,7 @@ final class ComponentAstValidator
         if (! in_array($profile['icon_style'] ?? null, ['outline', 'solid'], true)) {
             $this->add('adapter_profile.icon_style', 'The icon style must be outline or solid.');
         }
-        if (! in_array($profile['font_adapter'] ?? null, ['system', 'self-hosted'], true)) {
+        if (! in_array($profile['font_adapter'] ?? null, ['system', 'self-hosted', 'licensed-self-hosted'], true)) {
             $this->add('adapter_profile.font_adapter', 'The font adapter is not supported by contract 1.0.');
         }
         if (! in_array($profile['font_family'] ?? null, ['sans', 'sans-ja', 'serif', 'mono'], true)) {
