@@ -28,12 +28,15 @@ final class CapabilityResource extends JsonResource
             'health' => url('/up'),
             'operations' => [
                 'POST /api/v1/presentations/materialize',
+                'POST /api/v1/presentations/font-assets/check',
             ],
             'execution' => [
                 'side_effects' => false,
                 'deterministic' => true,
                 'remote_asset_fetching' => false,
                 'request_supplied_css_or_templates' => false,
+                'licensed_font_policy' => 'google-fonts-self-host-v1',
+                'font_catalog_fetching' => false,
             ],
             'default_profile' => $this->adapters->defaultProfile(),
             'adapters' => $this->adapters->manifest(),

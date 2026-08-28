@@ -11,7 +11,7 @@ return [
             'component_adapter' => 'tailwindcss-core',
             'utility_adapter' => 'tailwindcss-v4',
             'icon_adapter' => 'heroicons-v2',
-            'font_adapters' => ['system', 'self-hosted'],
+            'font_adapters' => ['system', 'self-hosted', 'licensed-self-hosted'],
             'image_adapter' => 'relative-assets',
         ],
     ],

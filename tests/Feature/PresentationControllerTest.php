@@ -53,6 +53,7 @@ final class PresentationControllerTest extends TestCase
             ->assertJsonPath('contract_version', '1.0')
             ->assertJsonPath('surface_id', 'demo')
             ->assertJsonPath('profile_id', 'tailwindcss-heroicons-system-v1')
+            ->assertJsonPath('font_policy', null)
             ->assertJsonPath('required_assets.0.asset_ref', 'hero-image')
             ->assertJsonPath('source_map.0.component_key', 'hero')
             ->assertJsonPath('source_map.0.slot_roles.1', 'Title')
@@ -154,6 +155,18 @@ final class PresentationControllerTest extends TestCase
             ->postJson('/api/v1/presentations/materialize', $payload)
             ->assertUnprocessable()
             ->assertJsonPath('type', 'unsupported_adapter');
+    }
+
+    public function test_unlicensed_profiles_reject_font_license_attestations(): void
+    {
+        $payload = $this->payload();
+        $payload['font_asset_set'] = ['provider' => 'google-fonts'];
+
+        $this->withToken('presentation-test-token')
+            ->postJson('/api/v1/presentations/materialize', $payload)
+            ->assertUnprocessable()
+            ->assertJsonPath('type', 'invalid_component_ast')
+            ->assertJsonFragment(['field' => 'font_asset_set']);
     }
 
     public function test_self_hosted_font_profile_emits_only_declared_woff2_assets(): void
@@ -290,6 +303,7 @@ final class PresentationControllerTest extends TestCase
                 'sha256' => str_repeat('c', 64),
             ]],
             'font_assets' => [],
+            'font_asset_set' => null,
         ];
     }
 }

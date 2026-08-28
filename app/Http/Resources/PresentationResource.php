@@ -15,6 +15,7 @@ final class PresentationResource extends JsonResource
             'surface_id' => $this->resource['surface_id'],
             'profile_id' => $this->resource['profile_id'],
             'catalog_locks' => $this->resource['catalog_locks'],
+            'font_policy' => $this->resource['font_policy'],
             'html' => $this->resource['html'],
             'css' => $this->resource['css'],
             'required_assets' => $this->resource['required_assets'],
