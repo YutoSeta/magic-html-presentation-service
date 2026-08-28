@@ -31,7 +31,7 @@ jobs:
           ssh-keyscan github.com 2>/dev/null >> ~/.ssh/known_hosts
         env:
           LARAVEL_ADMIN_DEPLOY_KEY_B64: ${{ secrets.LARAVEL_ADMIN_DEPLOY_KEY_B64 }}
-      - run: composer install --no-interaction --prefer-source --no-progress
+      - run: composer install --no-interaction --no-progress
       - run: composer validate --strict
       - run: npm ci
       - run: npm run build

@@ -76,7 +76,10 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "preferred-install": "dist",
+        "preferred-install": {
+            "yutoseta/laravel-admin": "source",
+            "*": "dist"
+        },
         "sort-packages": true,
         "platform": {
             "php": "8.3.0"
