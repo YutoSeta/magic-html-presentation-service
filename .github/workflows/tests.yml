@@ -23,13 +23,31 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Configure private Composer access
+      - name: Configure repository-scoped Composer deploy keys
         run: |
-          composer config --global --auth github-oauth.github.com "$COMPOSER_GITHUB_TOKEN"
-          git config --global url."https://x-access-token:${COMPOSER_GITHUB_TOKEN}@github.com/".insteadOf "ssh://git@github.com/"
+          install -d -m 700 ~/.ssh
+          printf '%s' "$LARAVEL_ADMIN_DEPLOY_KEY_B64" | base64 --decode > ~/.ssh/id_admin
+          printf '%s' "$CONTRACTS_DEPLOY_KEY_B64" | base64 --decode > ~/.ssh/id_contracts
+          chmod 600 ~/.ssh/id_admin ~/.ssh/id_contracts
+          ssh-keyscan github.com 2>/dev/null >> ~/.ssh/known_hosts
+          printf '%s\n' \
+            'Host github-admin' \
+            '  HostName github.com' \
+            '  User git' \
+            '  IdentityFile ~/.ssh/id_admin' \
+            '  IdentitiesOnly yes' \
+            'Host github-contracts' \
+            '  HostName github.com' \
+            '  User git' \
+            '  IdentityFile ~/.ssh/id_contracts' \
+            '  IdentitiesOnly yes' > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+          git config --global url."git@github-admin:YutoSeta/magic-html-laravel-admin.git".insteadOf "git@github.com:YutoSeta/magic-html-laravel-admin.git"
+          git config --global url."git@github-contracts:YutoSeta/magic-html-contracts.git".insteadOf "git@github.com:YutoSeta/magic-html-contracts.git"
         env:
-          COMPOSER_GITHUB_TOKEN: ${{ github.token }}
-      - run: composer install --no-interaction --prefer-dist --no-progress
+          LARAVEL_ADMIN_DEPLOY_KEY_B64: ${{ secrets.LARAVEL_ADMIN_DEPLOY_KEY_B64 }}
+          CONTRACTS_DEPLOY_KEY_B64: ${{ secrets.CONTRACTS_DEPLOY_KEY_B64 }}
+      - run: composer install --no-interaction --prefer-source --no-progress
       - run: composer validate --strict
       - run: npm ci
       - run: npm run build
