@@ -6203,16 +6203,16 @@
         },
         {
             "name": "yutoseta/magic-html-contracts",
-            "version": "v1.20.0",
+            "version": "v1.20.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:YutoSeta/magic-html-contracts.git",
-                "reference": "f047a25637bab5143890092c91c96942bce9c5d4"
+                "reference": "ac12ea763b16544de8881d68ecef38cc0d93b9ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YutoSeta/magic-html-contracts/zipball/f047a25637bab5143890092c91c96942bce9c5d4",
-                "reference": "f047a25637bab5143890092c91c96942bce9c5d4",
+                "url": "https://api.github.com/repos/YutoSeta/magic-html-contracts/zipball/ac12ea763b16544de8881d68ecef38cc0d93b9ff",
+                "reference": "ac12ea763b16544de8881d68ecef38cc0d93b9ff",
                 "shasum": ""
             },
             "require": {
@@ -6229,10 +6229,10 @@
             ],
             "description": "Executable contracts for independently deployed Magic HTML services.",
             "support": {
-                "source": "https://github.com/YutoSeta/magic-html-contracts/tree/v1.20.0",
+                "source": "https://github.com/YutoSeta/magic-html-contracts/tree/v1.20.1",
                 "issues": "https://github.com/YutoSeta/magic-html-contracts/issues"
             },
-            "time": "2026-08-28T00:51:19+00:00"
+            "time": "2026-08-28T01:11:50+00:00"
         }
     ],
     "packages-dev": [

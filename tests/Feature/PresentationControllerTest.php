@@ -183,6 +183,29 @@ final class PresentationControllerTest extends TestCase
         $this->assertStringContainsString('url("assets/fonts/main.woff2")', $response['css']);
     }
 
+    public function test_self_hosted_font_family_cannot_break_out_of_generated_css(): void
+    {
+        $payload = $this->payload();
+        $manifest = app(AdapterRegistry::class)->manifest();
+        $payload['adapter_profile']['font_adapter'] = 'self-hosted';
+        $payload['adapter_profile']['catalog_locks'] = $manifest['profiles'][0]['catalog_locks_by_font_adapter']['self-hosted'];
+        $payload['font_assets'] = [[
+            'asset_ref' => 'font-main',
+            'path' => 'assets/fonts/main.woff2',
+            'mime' => 'font/woff2',
+            'sha256' => str_repeat('e', 64),
+            'family' => '</style><script>alert(1)</script>',
+            'weight' => 400,
+            'style' => 'normal',
+        ]];
+
+        $this->withToken('presentation-test-token')
+            ->postJson('/api/v1/presentations/materialize', $payload)
+            ->assertUnprocessable()
+            ->assertJsonPath('type', 'invalid_component_ast')
+            ->assertJsonFragment(['field' => 'font_assets.0.family']);
+    }
+
     public function test_every_contract_composition_and_variant_has_a_deterministic_adapter(): void
     {
         $variants = [

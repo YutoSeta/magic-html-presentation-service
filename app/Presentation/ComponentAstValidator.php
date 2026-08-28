@@ -347,7 +347,10 @@ final class ComponentAstValidator
                 $this->add($path.'.mime', 'Self-hosted fonts must use WOFF2.');
             }
             $this->assertSha256($fontAsset['sha256'] ?? null, $path.'.sha256');
-            $this->assertText($fontAsset['family'] ?? null, 1, 100, $path.'.family');
+            if (! is_string($fontAsset['family'] ?? null)
+                || preg_match('/^[A-Za-z0-9][A-Za-z0-9 ._-]{0,99}$/D', $fontAsset['family']) !== 1) {
+                $this->add($path.'.family', 'Font family names must use only ASCII letters, numbers, spaces, dots, underscores, or hyphens.');
+            }
             if (! is_int($fontAsset['weight'] ?? null) || $fontAsset['weight'] < 100 || $fontAsset['weight'] > 900 || $fontAsset['weight'] % 100 !== 0) {
                 $this->add($path.'.weight', 'Font weight must be a 100-step integer from 100 through 900.');
             }
