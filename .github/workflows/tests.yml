@@ -1,0 +1,39 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Configure private Composer access
+        run: |
+          composer config --global --auth github-oauth.github.com "$COMPOSER_GITHUB_TOKEN"
+          git config --global url."https://x-access-token:${COMPOSER_GITHUB_TOKEN}@github.com/".insteadOf "ssh://git@github.com/"
+        env:
+          COMPOSER_GITHUB_TOKEN: ${{ secrets.COMPOSER_GITHUB_TOKEN }}
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: composer validate --strict
+      - run: npm ci
+      - run: npm run build
+      - run: php artisan test --compact
+      - run: vendor/bin/pint --test --format agent
+      - run: composer audit --no-dev
+      - run: npm audit --omit=dev

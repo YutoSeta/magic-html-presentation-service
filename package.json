@@ -1,0 +1,17 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "magic-html-presentation-service",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "npm run build:presentation-assets",
+        "build:presentation-assets": "node scripts/build-presentation-assets.mjs && npm run build:presentation-css",
+        "build:presentation-css": "tailwindcss -i resources/css/presentation.css -o resources/presentation/tailwind.css --minify",
+        "dev": "tailwindcss -i resources/css/presentation.css -o resources/presentation/tailwind.css --watch"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.0.0",
+        "heroicons": "2.2.0",
+        "tailwindcss": "^4.0.0"
+    }
+}

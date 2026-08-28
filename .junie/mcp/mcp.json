@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/yutoseta/Library/Application Support/Herd/bin/php85",
+            "args": [
+                "/Users/yutoseta/Herd/magic-html-cms-service/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
